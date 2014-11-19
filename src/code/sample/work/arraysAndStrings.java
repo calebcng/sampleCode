@@ -1,9 +1,10 @@
+package code.sample.work;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 
-
-
-public class Main {
-	
+public class arraysAndStrings {
 	public static boolean unique(String testString) {
 		Hashtable<Character, Character> uniqueChar = new Hashtable<Character, Character>();
 		boolean unique = true;
@@ -61,32 +62,32 @@ public class Main {
 		return testString;
 	}
 	
-	public static void main(String[] args) {
-		String myString = "Mr John Smith";
-		char[] myChar = new char[17];
-		myChar[0] = 'M';
-		myChar[1] = 'r';
-		myChar[2] = ' ';
-		myChar[3] = 'J';
-		myChar[4] = 'o';
-		myChar[5] = 'h';
-		myChar[6] = 'n';
-		myChar[7] = ' ';
-		myChar[8] = 'S';
-		myChar[9] = 'm';
-		myChar[10] = 'i';
-		myChar[11] = 't';
-		myChar[12] = 'h';
-		System.out.println("String is: " + myString);
+	public static String compress(String testString) {
+		HashMap<Character, Integer> ht = new HashMap<Character, Integer>();
+		String newString = "";
+		ArrayList<Character> charOrder = new ArrayList<Character>();
+		// For each letter that appears in string, make a corresponding element in hash table. If there is a repeated char, increment hash table element.
+		for(int i=0; i<testString.length(); i++) {
+			if(!ht.containsKey(testString.charAt(i))) {
+				// Letter has not been used previously
+				char myChar = testString.charAt(i);
+				ht.put(testString.charAt(i), 1);
+				charOrder.add(testString.charAt(i));
+			}
+			else {
+				// Letter has already been used, so increment counter
+				int count = ht.get(testString.charAt(i));
+				ht.put(testString.charAt(i), count+1);
+			}
+		}
+		for(int i=0; i<charOrder.size(); i++) {
+			String appendString = charOrder.get(i) + String.valueOf(ht.get(charOrder.get(i))); 
+			newString += appendString;
+		}
 		
-		if(uniqueNoBuffer(myString))
-			System.out.println("String contains all unique characters.");
+		if(newString.length() < testString.length())
+			return newString;
 		else
-			System.out.println("String does not contain all unique characters");
-		
-		System.out.println("Modified string is: ");
-		System.out.print(replaceSpaces(myChar));
-				
-		return;
+			return testString;
 	}
 }
